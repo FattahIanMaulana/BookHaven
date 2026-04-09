@@ -322,6 +322,187 @@ a{text-decoration:none;}
             font-size:13px;
         }
 
+        .order-status-section{
+            width:80%;
+            margin:0 auto 40px;
+        }
+
+        .order-status-layout{
+            display:flex;
+            gap:36px;
+            align-items:flex-start;
+        }
+
+        .order-summary-card{
+            width:275px;
+            min-width:275px;
+            background:#fff;
+            border:2px solid #d7d7d7;
+            border-radius:20px;
+            padding:18px 18px 24px;
+            box-shadow:0 6px 14px rgba(0,0,0,0.10);
+        }
+
+        .order-summary-logo{
+            text-align:center;
+            padding-bottom:12px;
+            border-bottom:1px solid #dcdcdc;
+            margin-bottom:12px;
+        }
+
+        .order-summary-logo img{
+            width:62px;
+            height:auto;
+            display:block;
+            margin:0 auto 6px;
+        }
+
+        .order-summary-logo span{
+            display:block;
+            font-size:20px;
+            font-weight:800;
+            color:#18365a;
+            line-height:1;
+        }
+
+        .order-summary-info h3{
+            font-size:20px;
+            color:#151515;
+            margin-bottom:6px;
+        }
+
+        .order-summary-info p{
+            font-size:15px;
+            color:#333;
+        }
+
+        .order-status-board{
+            flex:1;
+            background:#fff;
+            border:2px solid #dedede;
+            border-radius:22px;
+            box-shadow:0 6px 14px rgba(0,0,0,0.08);
+            overflow:hidden;
+        }
+
+        .order-status-header{
+            background:#efefef;
+            text-align:center;
+            padding:14px 20px;
+            font-size:19px;
+            font-weight:800;
+            color:#161616;
+        }
+
+        .order-status-list{
+            padding:10px 18px 18px;
+        }
+
+        .order-status-item{
+            display:flex;
+            gap:18px;
+            align-items:flex-start;
+            padding:16px 14px;
+        }
+
+        .order-status-item + .order-status-item{
+            border-top:1px solid #efefef;
+        }
+
+        .order-book-cover{
+            width:62px;
+            height:88px;
+            object-fit:cover;
+            border:1px solid #cfcfcf;
+            box-shadow:0 2px 4px rgba(0,0,0,0.08);
+            flex-shrink:0;
+        }
+
+        .order-book-content{
+            flex:1;
+            min-width:0;
+        }
+
+        .order-book-title{
+            font-size:16px;
+            font-weight:800;
+            color:#111;
+            margin-bottom:2px;
+            line-height:1.35;
+        }
+
+        .order-book-qty{
+            font-size:13px;
+            color:#555;
+            margin-bottom:18px;
+        }
+
+        .order-book-status{
+            font-size:14px;
+            font-weight:700;
+            color:#252525;
+            margin-bottom:3px;
+        }
+
+        .order-book-note{
+            font-size:13px;
+            color:#575757;
+            line-height:1.45;
+            max-width:540px;
+        }
+
+        .order-book-meta{
+            min-width:120px;
+            text-align:right;
+            font-size:12px;
+            color:#9a9a9a;
+            padding-top:72px;
+        }
+
+        .order-status-empty{
+            padding:28px 20px;
+            text-align:center;
+            color:#666;
+            font-size:15px;
+        }
+
+        .order-book-status.is-success{
+            color:#252525;
+        }
+
+        .order-book-status.is-cancelled{
+            color:#252525;
+        }
+
+        @media(max-width: 1100px){
+            .order-status-layout{
+                flex-direction:column;
+            }
+
+            .order-summary-card{
+                width:100%;
+                min-width:0;
+            }
+        }
+
+        @media(max-width: 768px){
+            .order-status-section{
+                width:92%;
+            }
+
+            .order-status-item{
+                flex-wrap:wrap;
+            }
+
+            .order-book-meta{
+                width:100%;
+                min-width:0;
+                text-align:left;
+                padding-top:0;
+                padding-left:80px;
+            }
+        }
+
 
         
     /* FOOTER */
@@ -516,10 +697,10 @@ body{
 
     <!-- MENU TAB -->
     <div class="menu">
-        <button onclick="showSection('status')" class="tab-btn active">
+        <button onclick="showSection('status', this)" class="tab-btn active">
             Status Pesanan
         </button>
-        <button onclick="showSection('riwayat')" class="tab-btn">
+        <button onclick="showSection('riwayat', this)" class="tab-btn">
             Riwayat Transaksi
         </button>
     </div>
@@ -532,29 +713,65 @@ body{
 
 
 <!-- STATUS -->
-<div id="status" class="hidden">
+<div id="status" class="order-status-section">
 
-<h2>Status Pesanan</h2>
+@php
+    $totalBarangPesanan = 0;
+    foreach (($pesanan ?? []) as $pesananItem) {
+        foreach (($pesananItem->detail ?? []) as $detailItem) {
+            $totalBarangPesanan += $detailItem->jumlah ?? 0;
+        }
+    }
+@endphp
 
-@php $totalBarangPesanan = 0; @endphp
+<div class="order-status-layout">
+    <div class="order-summary-card">
+        <div class="order-summary-logo">
+            <img src="{{ asset('storage/Logo.png') }}" alt="BookHaven">
+            <span>BookHaven</span>
+        </div>
+
+        <div class="order-summary-info">
+            <h3>Total Pesanan</h3>
+            <p>{{ $totalBarangPesanan }} Barang</p>
+        </div>
+    </div>
+
+    <div class="order-status-board">
+        <div class="order-status-header">Status Pesanan</div>
+        <div class="order-status-list">
 
 @forelse($pesanan ?? [] as $p)
 
     @foreach($p->detail ?? [] as $d)
 
-        @php $totalBarangPesanan += $d->jumlah ?? 0; @endphp
+        @php
+            $statusPesanan = $p->status ?? '-';
+            $judulStatus = 'Pesanan sedang diproses';
+            $catatanStatus = 'Pesanan Anda sedang kami siapkan.';
 
-        <div class="card">
-            <div class="left">
+            if ($statusPesanan === 'menunggu_verifikasi') {
+                $judulStatus = 'Pesanan menunggu verifikasi petugas';
+                $catatanStatus = 'Proses ini membutuhkan waktu maksimal 12 jam.';
+            } elseif ($statusPesanan === 'diterima') {
+                $judulStatus = 'Pesanan diterima dan siap dikirim';
+                $catatanStatus = 'Pesanan akan dikirim melalui '.$p->metode_pengiriman.'. No Resi: '.($p->no_resi ?? '-').'.';
+            } elseif ($statusPesanan === 'tidak_diproses') {
+                $judulStatus = 'Pesanan dibatalkan';
+                $catatanStatus = 'Pesanan dibatalkan karena melewati batas waktu pengecekan, pengembalian dana akan diproses oleh admin dalam waktu maksimal 1 hari.';
+            }
+        @endphp
+
+        <div class="order-status-item">
 
                 @if($d->produk)
-                    <img src="{{ asset('storage/'.$d->produk->gambar) }}">
+                    <img src="{{ asset('storage/'.$d->produk->gambar) }}" class="order-book-cover" alt="{{ $d->produk->nama }}">
                 @else
-                    <img src="{{ asset('no-image.png') }}">
+                    <img src="{{ asset('no-image.png') }}" class="order-book-cover" alt="Produk tidak ditemukan">
                 @endif
 
-                <div>
-                    <h3>
+                <div class="order-book-content">
+                    <h3 class="order-book-title">
                         {{ $d->produk->nama ?? 'Produk tidak ditemukan' }}
                     </h3>
 
@@ -563,27 +780,24 @@ body{
                         <p class="badge-danger">Produk sudah dihapus</p>
                     @endif
 
-                    <p>Jumlah: {{ $d->jumlah }}</p>
-                    <p>Status: {{ $p->status ?? '-' }}</p>
-
-                    @if(($p->status ?? '') == 'diterima')
-                        <p>No Resi: {{ $p->no_resi ?? '-' }}</p>
-                    @endif
-
-                    <p>Pengiriman: {{ $p->metode_pengiriman ?? '-' }}</p>
-                    <p>Tanggal: {{ $p->created_at ? $p->created_at->format('d M Y H:i') : '-' }}</p>
+                    <p class="order-book-qty">{{ $d->jumlah }} barang</p>
+                    <p class="order-book-status">{{ $judulStatus }}</p>
+                    <p class="order-book-note">{{ $catatanStatus }}</p>
                 </div>
-            </div>
+
+                <div class="order-book-meta">
+                    {{ $p->created_at ? $p->created_at->translatedFormat('d F Y') : '-' }}
+                </div>
         </div>
 
     @endforeach
 
 @empty
-<p>Tidak ada pesanan</p>
+<div class="order-status-empty">Belum ada pesanan.</div>
 @endforelse
 
-<div class="total-box">
-    Total Barang Dipesan: {{ $totalBarangPesanan }}
+        </div>
+    </div>
 </div>
 
 </div>
@@ -591,56 +805,97 @@ body{
 
 
 <!-- RIWAYAT -->
-<div id="riwayat" class="hidden">
+<div id="riwayat" class="order-status-section hidden">
 
-<h2>Riwayat Transaksi</h2>
+@php
+    $totalBarangTransaksi = 0;
+    foreach (($transaksi ?? []) as $transaksiItem) {
+        $statusRiwayatItem = $transaksiItem->pesanan->status ?? null;
+        if (in_array($statusRiwayatItem, ['diterima', 'tidak_diproses', 'dibatalkan_sistem'])) {
+            $totalBarangTransaksi += $transaksiItem->jumlah ?? 0;
+        }
+    }
 
-@php $totalBarangTransaksi = 0; @endphp
+    $adaRiwayatTransaksi = false;
+@endphp
 
-@forelse($transaksi ?? [] as $t)
+<div class="order-status-layout">
+    <div class="order-summary-card">
+        <div class="order-summary-logo">
+            <img src="{{ asset('storage/Logo.png') }}" alt="BookHaven">
+            <span>BookHaven</span>
+        </div>
 
-@if($t->pesanan && $t->pesanan->status == 'diterima')
-
-@php $totalBarangTransaksi += $t->jumlah ?? 0; @endphp
-
-<div class="card">
-    <div class="left">
-
-        @if($t->produk)
-            <img src="{{ asset('storage/'.$t->produk->gambar) }}">
-        @else
-            <img src="{{ asset('no-image.png') }}">
-        @endif
-
-        <div>
-            <h3>{{ $t->produk->nama ?? 'Produk tidak ditemukan' }}</h3>
-
-            {{-- 🔥 FIX UTAMA --}}
-            @if($t->produk && $t->produk->deleted_at)
-                <p class="badge-danger">Produk sudah dihapus</p>
-            @endif
-
-            <p>Jumlah: {{ $t->jumlah }}</p>
-            <p>Status: Transaksi Berhasil</p>
-            <p>Tanggal: {{ $t->created_at ? $t->created_at->format('d M Y H:i') : '-' }}</p>
+        <div class="order-summary-info">
+            <h3>Total Transaksi</h3>
+            <p>{{ $totalBarangTransaksi }} Barang</p>
         </div>
     </div>
-</div>
 
+    <div class="order-status-board">
+        <div class="order-status-header">Riwayat Transaksi</div>
+        <div class="order-status-list">
+
+@foreach($transaksi ?? [] as $t)
+
+    @php
+        $statusRiwayat = $t->pesanan->status ?? null;
+    @endphp
+
+    @if(in_array($statusRiwayat, ['diterima', 'tidak_diproses', 'dibatalkan_sistem']))
+
+        @php
+            $adaRiwayatTransaksi = true;
+            $judulRiwayat = 'Transaksi diterima';
+            $catatanRiwayat = 'Pesanan telah berhasil diproses dan diterima.';
+            $statusClass = 'is-success';
+
+            if (in_array($statusRiwayat, ['tidak_diproses', 'dibatalkan_sistem'])) {
+                $judulRiwayat = 'Transaksi dibatalkan';
+                $catatanRiwayat = 'Pesanan dibatalkan karena melewati batas waktu pengecekan atau dibatalkan oleh petugas.';
+                $statusClass = 'is-cancelled';
+            }
+        @endphp
+
+        <div class="order-status-item">
+            @if($t->produk)
+                <img src="{{ asset('storage/'.$t->produk->gambar) }}" class="order-book-cover" alt="{{ $t->produk->nama }}">
+            @else
+                <img src="{{ asset('no-image.png') }}" class="order-book-cover" alt="Produk tidak ditemukan">
+            @endif
+
+            <div class="order-book-content">
+                <h3 class="order-book-title">{{ $t->produk->nama ?? 'Produk tidak ditemukan' }}</h3>
+
+            {{-- 🔥 FIX UTAMA --}}
+                @if($t->produk && $t->produk->deleted_at)
+                    <p class="badge-danger">Produk sudah dihapus</p>
+                @endif
+
+                <p class="order-book-qty">{{ $t->jumlah }} barang</p>
+                <p class="order-book-status {{ $statusClass }}">{{ $judulRiwayat }}</p>
+                <p class="order-book-note">{{ $catatanRiwayat }}</p>
+            </div>
+
+            <div class="order-book-meta">
+                {{ $t->created_at ? $t->created_at->translatedFormat('d F Y') : '-' }}
+            </div>
+        </div>
+
+    @endif
+
+@endforeach
+
+@if(!$adaRiwayatTransaksi)
+<div class="order-status-empty">Belum ada riwayat transaksi.</div>
 @endif
 
-@empty
-<p>Tidak ada transaksi</p>
-@endforelse
-
-<div class="total-box">
-    Total Barang Dibeli: {{ $totalBarangTransaksi }}
-</div>
+        </div>
+    </div>
 
 </div>
 
 </div>
-
 
 
 <!-- FOOTER -->
@@ -650,7 +905,7 @@ body{
     <div class="footer-left">
         <h3>Tentang BookHaven</h3>
         <p><a href="{{ route('user.about') }}">Tentang Kami</a></p>
-          <p><a href="https://wa.me/6281317705750" target="_blank">Hubungi Kami (Refund)</a></p>
+          <p><a href="https://wa.me/6281317705750" target="_blank">Hubungi Kami</a></p>
         <p class="copyright">
             © 2026, BookHaven - Sistem Informasi E-Commerce Buku
         </p>
@@ -708,7 +963,9 @@ body{
     buttons.forEach(btn => btn.classList.remove('active'));
 
     // aktifkan yang diklik
-    el.classList.add('active');
+    if (el) {
+        el.classList.add('active');
+    }
         }
 
 

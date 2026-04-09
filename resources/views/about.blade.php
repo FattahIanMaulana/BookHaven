@@ -403,6 +403,7 @@ a{text-decoration:none;}
     <div class="footer-left">
         <h3>Tentang BookHaven</h3>
         <p><a href="{{ route('about') }}">Tentang Kami</a></p>
+         <p><a href="https://wa.me/6281317705750" target="_blank">Hubungi Kami</a></p>
         <p>© 2026, BookHaven - Sistem Informasi E-Commerce Buku</p>
     </div>
 

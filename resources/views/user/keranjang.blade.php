@@ -661,7 +661,7 @@ body{
     <div class="footer-left">
         <h3>Tentang BookHaven</h3>
         <p><a href="{{ route('user.about') }}">Tentang Kami</a></p>
-          <p><a href="https://wa.me/6281317705750" target="_blank">Hubungi Kami (Refund)</a></p>
+          <p><a href="https://wa.me/6281317705750" target="_blank">Hubungi Kami</a></p>
         <p class="copyright">
             © 2026, BookHaven - Sistem Informasi E-Commerce Buku
         </p>

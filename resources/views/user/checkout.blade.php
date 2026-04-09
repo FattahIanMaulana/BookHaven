@@ -406,9 +406,29 @@ a{text-decoration:none;}
     padding:20px;
     border-radius:20px;
     text-align:center;
+    position:relative;
 
      max-height:90vh;     /* 🔥 batas tinggi */
     overflow-y:auto;     /* 🔥 biar bisa scroll */
+}
+
+.popup-close{
+    position:absolute;
+    top:12px;
+    left:12px;
+    width:34px;
+    height:34px;
+    border:none;
+    border-radius:50%;
+    background:#f3f4f6;
+    color:#1E3A5F;
+    font-size:22px;
+    font-weight:700;
+    line-height:1;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 /* TITLE */
@@ -471,6 +491,14 @@ a{text-decoration:none;}
     font-weight:700;
     cursor:pointer;
     color:white;
+}
+
+.btn-main.disabled,
+.btn-main:disabled{
+    background:#d1d5db;
+    color:#111;
+    cursor:not-allowed;
+    pointer-events:none;
 }
 
 /* ERROR */
@@ -752,6 +780,7 @@ a{text-decoration:none;}
 
 <div class="popup" id="popup">
     <div class="popup-content">
+        <button type="button" class="popup-close" onclick="closePopup()" aria-label="Tutup popup">&times;</button>
 
         <h2 class="title">BookHaven</h2>
 
@@ -790,7 +819,7 @@ a{text-decoration:none;}
             <!-- PREVIEW -->
             <img id="preview" class="preview">
 
-            <button type="submit" class="btn-main">Buat Pesanan</button>
+            <button type="submit" class="btn-main disabled" id="submitPesanan" disabled>Buat Pesanan</button>
         </form>
 
     </div>
@@ -805,7 +834,7 @@ a{text-decoration:none;}
     <div class="footer-left">
         <h3>Tentang BookHaven</h3>
         <p><a href="{{ route('user.about') }}">Tentang Kami</a></p>
-          <p><a href="https://wa.me/6281317705750" target="_blank">Hubungi Kami (Refund)</a></p>
+          <p><a href="https://wa.me/6281317705750" target="_blank">Hubungi Kami</a></p>
         <p class="copyright">
             © 2026, BookHaven - Sistem Informasi E-Commerce Buku
         </p>
@@ -854,6 +883,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const btn = document.getElementById("btnBayar");
     const popup = document.getElementById("popup");
     const formPesanan = document.querySelector('#popup form');
+    const submitPesanan = document.getElementById('submitPesanan');
+
+    function setSubmitState(isEnabled) {
+        if (!submitPesanan) {
+            return;
+        }
+
+        submitPesanan.disabled = !isEnabled;
+        submitPesanan.classList.toggle('disabled', !isEnabled);
+    }
 
     function showPaymentInfo(metodeValue) {
         const display = document.getElementById('paymentDisplay');
@@ -900,6 +939,8 @@ document.addEventListener("DOMContentLoaded", function () {
             // 🔥 TAMPILKAN POPUP
             popup.style.display = 'flex';
             document.body.style.overflow = 'hidden';
+            document.getElementById('fileError').innerText = '';
+            setSubmitState(false);
 
             document.getElementById('metodeFix').value = metode.value;
             document.getElementById('pengirimanFix').value = pengiriman.value;
@@ -929,16 +970,21 @@ document.addEventListener("DOMContentLoaded", function () {
             let preview = document.getElementById('preview');
             let text = document.getElementById('uploadText');
 
-            if (!file) return;
+            if (!file) {
+                setSubmitState(false);
+                return;
+            }
 
             // VALIDASI HARUS GAMBAR
             if (!file.type.startsWith('image/')) {
                 errorText.innerText = "File harus berupa gambar (jpg,png dsb)";
                 e.target.value = "";
                 if (preview) preview.style.display = 'none';
+                setSubmitState(false);
                 return;
             } else {
                 errorText.innerText = "";
+                setSubmitState(true);
             }
 
             let reader = new FileReader();
@@ -955,6 +1001,23 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             reader.readAsDataURL(file);
         }
+    }
+
+    if (formPesanan) {
+        formPesanan.addEventListener('submit', function (e) {
+            let buktiInput = document.getElementById('bukti');
+            let errorText = document.getElementById('fileError');
+
+            if (!buktiInput || !buktiInput.files || buktiInput.files.length === 0) {
+                e.preventDefault();
+                if (errorText) errorText.innerText = "Bukti pembayaran wajib diupload.";
+                setSubmitState(false);
+                return;
+            }
+
+            if (errorText) errorText.innerText = "";
+            setSubmitState(true);
+        });
     }
 
     

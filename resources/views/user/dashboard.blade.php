@@ -190,7 +190,7 @@ a{text-decoration:none;}
     
     /* CONTENT */
 .content-wrapper{
-    padding-top:110px;
+     padding-top:260px; 
 }
 
 /* SECTION */
@@ -437,10 +437,7 @@ a{text-decoration:none;}
     border-radius:12px;
 }
 
-/* Jarak hero ke kategori supaya nggak nempel */
-.content-wrapper{
-    padding-top:260px; /* cukup dekat tapi nggak nempel hero */
-}
+
 
 
     </style>
@@ -575,7 +572,7 @@ a{text-decoration:none;}
     <div class="footer-left">
         <h3>Tentang BookHaven</h3>
         <p><a href="{{ route('user.about') }}">Tentang Kami</a></p>
-        <p><a href="https://wa.me/6281317705750" target="_blank">Hubungi Kami (Refund)</a></p>
+        <p><a href="https://wa.me/6281317705750" target="_blank">Hubungi Kami</a></p>
         <p class="copyright">
             © 2026, BookHaven - Sistem Informasi E-Commerce Buku
         </p>

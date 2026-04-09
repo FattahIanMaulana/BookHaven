@@ -4,104 +4,348 @@
     <title>Edit Akun - Admin</title>
 
     <style>
-        * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI'; }
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI';
+        }
 
-        body { background:#fff; }
+        body{background:#fff;}
+        a{text-decoration:none;}
 
-        a { text-decoration:none; color:#1E3A5F; }
-
-        .navbar {
-            position: fixed;
+        .navbar{
+            position:fixed;
+            top:0;
             width:100%;
             background:#E5E7EB;
             padding:15px 60px;
             display:flex;
-            justify-content:space-between;
             align-items:center;
-            z-index:999;
+            z-index:9999;
         }
 
-        .nav-left { display:flex; gap:20px; align-items:center; }
-        .nav-right { display:flex; gap:10px; align-items:center; }
+        .nav-left{
+            display:flex;
+            align-items:center;
+            gap:10px;
+        }
 
-        .logo {
-            font-weight:bold;
-            font-size:18px;
+        .nav-center{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:35px;
+            flex:1;
+        }
+
+        .nav-center a{
+            color:#000;
+            font-weight:600;
+            border-bottom:1px solid #000;
+            padding-bottom:2px;
+        }
+
+        .logo-img{
+            width:40px;
+            height:auto;
+        }
+
+        .logo{
+            font-size:20px;
+            font-weight:700;
+            color:#1E3A5F;
+        }
+
+        .nav-right {
+            display:flex;
+            gap:10px;
+            align-items:center;
         }
 
         .btn {
-            background:#1E3A5F;
+            background:#dc2626;
             color:white;
-            padding:8px 15px;
-            border-radius:8px;
+            padding:10px 16px;
+            border-radius:20px;
+            font-size:14px;
             border:none;
             cursor:pointer;
+            font-weight:700;
         }
 
         .content {
-            padding-top:100px;
-            max-width:600px;
-            margin:auto;
+            flex:1;
+            padding:120px 24px 48px;
+            display:flex;
+            justify-content:center;
+            align-items:flex-start;
         }
 
-        input, select {
-            padding:6px;
+        .account-card {
+            width:min(650px, 100%);
+            background:#fff;
+            border:1px solid #d4d4d4;
+            border-radius:24px;
+            box-shadow:0 5px 14px rgba(15, 23, 42, 0.18);
+            overflow:hidden;
+        }
+
+        .account-card-header {
+            background:#ececec;
+            padding:12px 20px;
+            text-align:center;
+            font-size:18px;
+            font-weight:800;
+            color:#111;
+        }
+
+        .account-card-body {
+            padding:26px 26px 30px;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+        }
+
+        .back-link {
+            align-self:flex-start;
+            margin-bottom:16px;
+            color:#1E3A5F;
+            font-size:14px;
+            font-weight:700;
+        }
+
+        .avatar-shell {
+            width:124px;
+            height:124px;
+            border:1.5px solid #9ca3af;
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            margin-bottom:24px;
+        }
+
+        .avatar-icon {
+            position:relative;
+            width:64px;
+            height:72px;
+        }
+
+        .avatar-icon::before {
+            content:'';
+            position:absolute;
+            top:0;
+            left:50%;
+            transform:translateX(-50%);
+            width:40px;
+            height:40px;
+            border-radius:50%;
+            background:#231f20;
+        }
+
+        .avatar-icon::after {
+            content:'';
+            position:absolute;
+            bottom:0;
+            left:50%;
+            transform:translateX(-50%);
+            width:64px;
+            height:38px;
+            border-radius:999px 999px 18px 18px;
+            background:#231f20;
+        }
+
+        .form-stack {
+            width:min(365px, 100%);
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            gap:16px;
+        }
+
+        .field-wrap {
             width:100%;
+        }
+
+        .form-input,
+        .form-select {
+            width:100%;
+            padding:13px 16px;
+            border:1.5px solid #3f3f46;
+            border-radius:15px;
+            font-size:14px;
+            color:#111827;
+            background:#f8f8f8;
+            outline:none;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            border-color:#1E3A5F;
+            box-shadow:0 0 0 2px rgba(30, 58, 95, 0.10);
+            background:#fff;
+        }
+
+        .role-wrap {
+            width:auto;
+            min-width:124px;
+        }
+
+        .form-select {
+            appearance:none;
+            padding-right:42px;
+            background-image:linear-gradient(45deg, transparent 50%, #6b7280 50%), linear-gradient(135deg, #6b7280 50%, transparent 50%);
+            background-position:calc(100% - 18px) calc(50% - 3px), calc(100% - 10px) calc(50% - 3px);
+            background-size:8px 8px, 8px 8px;
+            background-repeat:no-repeat;
+        }
+
+        .alert-error,
+        .alert-success,
+        .alert-warning {
+            padding:10px;
+            border-radius:6px;
+            margin-bottom:16px;
+            width:min(365px, 100%);
         }
 
         .alert-error {
             background:#FEE2E2;
             color:#991B1B;
-            padding:10px;
-            border-radius:6px;
-            margin-bottom:10px;
         }
 
         .alert-success {
             background:#D1FAE5;
             color:#065F46;
-            padding:10px;
-            border-radius:6px;
-            margin-bottom:10px;
         }
 
         .alert-warning {
             background:#FEF3C7;
             color:#92400E;
-            padding:10px;
-            border-radius:6px;
-            margin-bottom:10px;
         }
 
-        .footer {
+        .note {
+            font-size:12px;
+            color:#555;
+            margin-top:6px;
+            padding-left:4px;
+        }
+
+        .submit-btn {
+            margin-top:10px;
+            min-width:220px;
             background:#1E3A5F;
             color:white;
-            text-align:center;
-            padding:20px;
-            margin-top:40px;
+            border:none;
+            padding:14px 18px;
+            border-radius:14px;
+            font-size:16px;
+            font-weight:800;
+            box-shadow:0 4px 10px rgba(0,0,0,0.18);
+            cursor:pointer;
         }
 
-        .footer a { color:white; }
+        .footer{
+            background:#E5E7EB;
+            padding:40px 60px;
+            display:flex;
+            justify-content:space-between;
+            align-items:flex-start;
+            flex-wrap:wrap;
+        }
+
+        .footer-left p:last-child{
+            margin-top:25px;
+            font-size:13px;
+            color:#555;
+        }
+
+        .footer-right{
+            text-align:center;
+            margin-top:6.5px;
+        }
+
+        .footer-right h3{
+            margin-bottom:14px;
+            font-size:24px;
+            font-weight:700;
+        }
+
+        .social-icons{
+            display:flex;
+            gap:14px;
+            justify-content:flex-end;
+        }
+
+        .social-icon{
+            width:35px;
+            height:35px;
+            border-radius:50%;
+            background:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            overflow:hidden;
+            box-shadow:0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .social-icon img{
+            width:40px;
+            height:40px;
+            object-fit:contain;
+        }
+
+        html, body{
+            height:100%;
+        }
+
+        body{
+            display:flex;
+            flex-direction:column;
+        }
+
+        @media (max-width: 900px) {
+            .navbar {
+                padding:15px 22px;
+                flex-wrap:wrap;
+                gap:12px;
+            }
+
+            .nav-center {
+                order:3;
+                width:100%;
+                flex-wrap:wrap;
+                gap:16px;
+            }
+
+            .content {
+                padding-top:150px;
+            }
+
+            .footer {
+                padding:30px 22px;
+                gap:24px;
+            }
+        }
     </style>
 </head>
 <body>
 
-<!-- ✅ NAVBAR ADMIN -->
 <div class="navbar">
     <div class="nav-left">
-        <a href="{{ route('admin.dashboard') }}" class="logo">
-            BookHaven (Admin)
-        </a>
+        <img src="{{ asset('storage/Logo.png') }}" class="logo-img">
+        <a href="{{ route('admin.dashboard') }}" class="logo">BookHaven</a>
+    </div>
 
-        <a href="{{ route('admin.akun.index') }}">Manajemen Akun</a>
+    <div class="nav-center">
         <a href="{{ route('admin.produk.index') }}">Manajemen Produk</a>
+        <a href="{{ route('admin.akun.index') }}">Manajemen Akun</a>
         <a href="{{ route('admin.transaksi') }}">Transaksi</a>
         <a href="{{ route('admin.laporan') }}">Laporan</a>
     </div>
 
     <div class="nav-right">
-        <div>Halo, {{ Auth::user()->name }}</div>
-
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button class="btn">Logout</button>
@@ -109,89 +353,124 @@
     </div>
 </div>
 
-<!-- CONTENT -->
 <div class="content">
+    <div class="account-card">
+        <div class="account-card-header">Edit Akun</div>
 
-<h1>Edit Akun</h1>
+        <div class="account-card-body">
+            <a href="{{ route('admin.akun.index') }}" class="back-link">&larr; Kembali</a>
 
-<a href="{{ route('admin.akun.index') }}">← Kembali</a>
+            <div class="avatar-shell">
+                <div class="avatar-icon"></div>
+            </div>
 
-{{-- ERROR VALIDASI --}}
-@if($errors->any())
-    <div class="alert-error">
-        <ul>
-            @foreach($errors->all() as $e)
-                <li>{{ $e }}</li>
-            @endforeach
-        </ul>
+            @if($errors->any())
+                <div class="alert-error">
+                    <ul>
+                        @foreach($errors->all() as $e)
+                            <li>{{ $e }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert-error">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            @if(session('success'))
+                <div class="alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if(Auth::id() === $user->id)
+                <div class="alert-warning">
+                    Anda sedang mengedit akun sendiri. Role tidak bisa diubah.
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('admin.akun.update', $user->id) }}" class="form-stack">
+                @csrf
+                @method('PUT')
+
+                <div class="field-wrap">
+                    <input class="form-input" type="email" name="email" value="{{ old('email', $user->email) }}" required pattern="[a-zA-Z0-9]{5,}@gmail\.com" placeholder="Masukkan Email">
+                </div>
+
+                <div class="field-wrap">
+                    <input class="form-input" type="text" name="name" value="{{ old('name', $user->name) }}" required minlength="3" placeholder="Masukkan Username">
+                </div>
+
+                <div class="field-wrap">
+                    <input class="form-input" type="password" name="password" minlength="6" pattern="\S{6,}" placeholder="Masukkan Password Baru">
+                    <div class="note">Kosongkan jika password tidak ingin diubah</div>
+                </div>
+
+                <div class="field-wrap">
+                    <input class="form-input" type="password" name="password_confirmation" minlength="6" pattern="\S{6,}" placeholder="Konfirmasi Password">
+                </div>
+
+                <div class="field-wrap role-wrap">
+                    <select class="form-select" name="role" required @if(Auth::id() === $user->id) disabled @endif>
+                        <option value="user" {{ old('role', $user->role)=='user'?'selected':'' }}>User</option>
+                        <option value="staff" {{ old('role', $user->role)=='staff'?'selected':'' }}>Staff</option>
+                        <option value="admin" {{ old('role', $user->role)=='admin'?'selected':'' }}>Admin</option>
+                    </select>
+                    <div class="note">Pilih role akun yang sesuai</div>
+                </div>
+
+                @if(Auth::id() === $user->id)
+                    <input type="hidden" name="role" value="{{ $user->role }}">
+                @endif
+
+                <button type="submit" class="submit-btn">Konfirmasi Edit</button>
+            </form>
+        </div>
     </div>
-@endif
-
-{{-- ERROR CUSTOM --}}
-@if(session('error'))
-    <div class="alert-error">
-        {{ session('error') }}
-    </div>
-@endif
-
-{{-- SUCCESS --}}
-@if(session('success'))
-    <div class="alert-success">
-        {{ session('success') }}
-    </div>
-@endif
-
-{{-- WARNING --}}
-@if(Auth::id() === $user->id)
-    <div class="alert-warning">
-        ⚠️ Anda sedang mengedit akun sendiri. Role tidak bisa diubah.
-    </div>
-@endif
-
-<form method="POST" action="{{ route('admin.akun.update', $user->id) }}">
-    @csrf
-    @method('PUT')
-
-    {{-- NAMA --}}
-    <label>Nama</label><br>
-    <input type="text" name="name" value="{{ old('name', $user->name) }}" required minlength="3"><br><br>
-
-    {{-- EMAIL --}}
-    <label>Email</label><br>
-    <input type="email" name="email" value="{{ old('email', $user->email) }}" required
-           pattern="[a-zA-Z0-9]{5,}@gmail\.com"><br><br>
-
-    {{-- PASSWORD --}}
-    <label>Password (opsional)</label><br>
-    <input type="password" name="password" minlength="6" pattern="\S{6,}"><br><br>
-
-    {{-- KONFIRMASI --}}
-    <label>Konfirmasi Password</label><br>
-    <input type="password" name="password_confirmation" minlength="6" pattern="\S{6,}"><br><br>
-
-    {{-- ROLE --}}
-    <label>Role</label><br>
-    <select name="role" required
-        @if(Auth::id() === $user->id) disabled @endif
-    >
-        <option value="user" {{ old('role', $user->role)=='user'?'selected':'' }}>User</option>
-        <option value="staff" {{ old('role', $user->role)=='staff'?'selected':'' }}>Staff</option>
-        <option value="admin" {{ old('role', $user->role)=='admin'?'selected':'' }}>Admin</option>
-    </select><br><br>
-
-    {{-- FIX hidden --}}
-    @if(Auth::id() === $user->id)
-        <input type="hidden" name="role" value="{{ $user->role }}">
-    @endif
-
-    <button type="submit" class="btn">Update</button>
-</form>
-
 </div>
 
-<!-- ✅ FOOTER -->
 <div class="footer">
-    <a href="{{ route('admin.about') }}">About Us</a>
+    <div class="footer-left">
+        <h3>Tentang BookHaven</h3>
+        <p><a href="{{ route('admin.about') }}">Tentang Kami</a></p>
+        <p><a href="https://wa.me/6281317705750" target="_blank">Hubungi Kami</a></p>
+        <p class="copyright">
+            &copy; 2026, BookHaven - Sistem Informasi E-Commerce Buku
+        </p>
+    </div>
+
+    <div class="footer-right">
+        <h3>Follow Us</h3>
+
+        <div class="social-icons">
+            <div class="social-icon">
+                <a href="https://www.facebook.com/share/14YfqmAGjkC/" target="_blank">
+                    <img src="{{ asset('storage/facebook.png') }}">
+                </a>
+            </div>
+
+            <div class="social-icon">
+                 <a href="https://www.instagram.com/fattahian06?igsh=MzgwZmN2MGNqOGNs" target="_blank">
+                    <img src="{{ asset('storage/instagram.jpg') }}">
+                </a>
+            </div>
+
+            <div class="social-icon">
+                <a href="https://youtube.com/@fattahian0611?si=M6IYal89_DCRV9Q7" target="_blank">
+                    <img src="{{ asset('storage/youtube.png') }}">
+                </a>
+            </div>
+
+            <div class="social-icon">
+                <a href="tiktok.com/@fattah_ian_maulana" target="_blank">
+                    <img src="{{ asset('storage/tiktok.avif') }}">
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>

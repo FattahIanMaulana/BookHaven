@@ -170,6 +170,7 @@ class PesananController extends Controller
     public function laporan(Request $request)
     {
         $transaksi = collect();
+        $laporanDibatalkan = collect();
         $penjualan = collect();
         $produk = Produk::all();
 
@@ -188,6 +189,12 @@ class PesananController extends Controller
                 ->latest()
                 ->get();
 
+            $laporanDibatalkan = Transaksi::with(['produk','pesanan','user'])
+                ->whereBetween('created_at', [$from, $to])
+                ->whereHas('pesanan', fn($q) => $q->whereIn('status', ['tidak_diproses', 'dibatalkan_sistem']))
+                ->latest()
+                ->get();
+
             $totalTransaksi = $transaksi->count();
             $totalPenjualan = $transaksi->sum('total_harga');
             $totalBarang = $transaksi->sum('jumlah');
@@ -197,12 +204,12 @@ class PesananController extends Controller
 
         if (Auth::user()->role === 'admin') {
             return view('admin.laporan', compact(
-                'transaksi','penjualan','produk','totalTransaksi','totalPenjualan','totalBarang','totalStok'
+                'transaksi','laporanDibatalkan','penjualan','produk','totalTransaksi','totalPenjualan','totalBarang','totalStok'
             ));
         }
 
         return view('staff.laporan', compact(
-            'transaksi','penjualan','produk','totalTransaksi','totalPenjualan','totalBarang','totalStok'
+            'transaksi','laporanDibatalkan','penjualan','produk','totalTransaksi','totalPenjualan','totalBarang','totalStok'
         ));
     }
 
