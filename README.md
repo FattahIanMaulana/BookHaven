@@ -7,6 +7,12 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Informasi Identitas
+
+Nama : Fattah Ian Maulana
+Kelas : 12 PPLG 1
+No. Absen : 16
+
 ## Framework & Code
 
 Saya menggunakan framework Laravel, Saya juga menggunakan JavaScript serta Css.
