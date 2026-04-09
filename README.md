@@ -9,9 +9,9 @@
 
 ## Informasi Identitas
 
-Nama : Fattah Ian Maulana
-Kelas : 12 PPLG 1
-No. Absen : 16
+1. Nama : Fattah Ian Maulana
+2. Kelas : 12 PPLG 1
+3. No. Absen : 16
 
 ## Framework & Code
 
