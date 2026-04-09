@@ -13,7 +13,7 @@ Saya menggunakan framework Laravel, Saya juga menggunakan JavaScript serta Css.
 
 ## Informasi Role Admin
 
-Role akun admin yakni:
+Gmail dan Password akun admin yakni:
 1. Gmail = admin1@gmail.com
 2. Password = admin1
 
